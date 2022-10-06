@@ -1,5 +1,4 @@
 import streamlit as st
-import bitly_api
 from PIL import Image
 import qrcode
 import pyshorteners
