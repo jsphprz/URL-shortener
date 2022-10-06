@@ -2,9 +2,10 @@ import streamlit as st
 import bitly_api
 from PIL import Image
 import qrcode
+import pyshorteners
 
 #token = "7d2d5ab75fb4104d391501975235e0b3f1d55045"
-c = bitly_api.Connection(access_token='7d2d5ab75fb4104d391501975235e0b3f1d55045')
+c = pyshorteners.Shortener(api_key='7d2d5ab75fb4104d391501975235e0b3f1d55045')
 #connection = bitly_api.Connection(access_token=token)
 
 st.set_page_config(
@@ -24,7 +25,7 @@ with body:
 with st.form('input_url'):
     url = st.text_input(label = "Enter URL:")
     if st.form_submit_button('Confirm'):
-        shorten_url = c.shorten(url)
+        shorten_url = c.bitly_short(url)
         st.success("Shortened URL: " + "**" + shorten_url.get('url') + "**")
         col1, col2, col3, col4, col5, col6 = st.columns([1,6,1,6,1,6])
         img = qrcode.make(url)
