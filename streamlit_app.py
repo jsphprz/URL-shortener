@@ -5,7 +5,6 @@ import qrcode
 
 #token = "49c4a71e8309dd60d68c3c4d3ad80e2c7021cf77"
 c = bitly_api.Connection(access_token='49c4a71e8309dd60d68c3c4d3ad80e2c7021cf77')
-d = cv2.QRCodeDetector()
 #connection = bitly_api.Connection(access_token=token)
 
 st.set_page_config(
