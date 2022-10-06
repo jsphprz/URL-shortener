@@ -2,4 +2,3 @@ bitly_api_py3==0.3
 streamlit==1.11.1
 bitly_api==0.3
 qrcode==6.1
-git+git://github.com/bitly/bitly-api-python
