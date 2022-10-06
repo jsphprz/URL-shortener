@@ -3,9 +3,13 @@ import bitly_api
 from PIL import Image
 import qrcode
 
+<<<<<<< HEAD
 #token = "49c4a71e8309dd60d68c3c4d3ad80e2c7021cf77"
 c = bitly_api.Connection(access_token='49c4a71e8309dd60d68c3c4d3ad80e2c7021cf77')
 #connection = bitly_api.Connection(access_token=token)
+=======
+c = bitly_api.Connection(access_token='7d2d5ab75fb4104d391501975235e0b3f1d55045')
+>>>>>>> 50c3ef4f951413873fa6ed76c04c0ed64b5befd5
 
 st.set_page_config(
         page_title="URL Shortener",
