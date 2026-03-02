@@ -3,6 +3,7 @@ from PIL import Image
 import qrcode
 import pyshorteners
 import os
+import io
 from urllib.parse import urlparse
 
 st.set_page_config(
@@ -36,13 +37,20 @@ with st.form('input_url'):
                 shorten_url = c.bitly.short(url)
                 st.success(f"Shortened URL: **{shorten_url}**")
                 
-                img = qrcode.make(shorten_url)
-                img.save("url.jpg")
-                image = Image.open("url.jpg")
+                qr = qrcode.QRCode(
+                    version=1,
+                    error_correction=qrcode.constants.ERROR_CORRECT_H,
+                    box_size=30,
+                    border=4,
+                )
+                qr.add_data(url)
+                qr.make(fit=True)
+                img = qr.make_image(fill_color="black", back_color="white")
+                buf = io.BytesIO()
+                img.save(buf, format="PNG")
+                buf.seek(0)
                 
-                st.image(image, caption="QR Code", width=200)
-                
-                os.remove("url.jpg")
+                st.image(buf, caption="QR Code")
                 
             except Exception as e:
                 st.error(f"Error: {str(e)}")
