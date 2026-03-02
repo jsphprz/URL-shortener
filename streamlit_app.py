@@ -1,8 +1,6 @@
 import streamlit as st
-from PIL import Image
 import qrcode
 import pyshorteners
-import os
 import io
 from urllib.parse import urlparse
 
