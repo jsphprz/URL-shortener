@@ -2,34 +2,47 @@ import streamlit as st
 from PIL import Image
 import qrcode
 import pyshorteners
-import requests
-
-#token = "7d2d5ab75fb4104d391501975235e0b3f1d55045"
-c = pyshorteners.Shortener(api_key='7d2d5ab75fb4104d391501975235e0b3f1d55045')
-#connection = bitly_api.Connection(access_token=token)
+import os
+from urllib.parse import urlparse
 
 st.set_page_config(
-        page_title="URL Shortener",
-        page_icon="🔗"
-    )
+    page_title="URL Shortener",
+    page_icon="🔗"
+)
 
-header = st.container()
-body = st.container()
+API_KEY = st.secrets.get("BITLY_API_KEY")
 
-with header:
-    st.title('URL Shortener 🔗')
+st.title('URL Shortener 🔗')
+st.text("URL Shortener using Bitly API")
 
-with body:
-    st.text("URL Shortener using Bitly API")
+def is_valid_url(url):
+    try:
+        result = urlparse(url)
+        return all([result.scheme, result.netloc])
+    except:
+        return False
 
 with st.form('input_url'):
-    url = st.text_input(label = "Enter URL:")
+    url = st.text_input(label="Enter URL:")
+    
     if st.form_submit_button('Confirm'):
-        shorten_url = c.bitly.short(url)
-        st.success("Shortened URL: " + "**" + shorten_url + "**")
-        col1, col2, col3, col4, col5, col6 = st.columns([1,6,1,6,1,6])
-        img = qrcode.make(url)
-        img.save("url.jpg")
-        image = Image.open("url.jpg")
-        with col3:
-            st.image(image, caption="QR Code", width=200, output_format='auto')
+        if not url:
+            st.error("Please enter a URL")
+        elif not is_valid_url(url):
+            st.error("Please enter a valid URL (include http:// or https://)")
+        else:
+            try:
+                c = pyshorteners.Shortener(api_key=API_KEY)
+                shorten_url = c.bitly.short(url)
+                st.success(f"Shortened URL: **{shorten_url}**")
+                
+                img = qrcode.make(shorten_url)
+                img.save("url.jpg")
+                image = Image.open("url.jpg")
+                
+                st.image(image, caption="QR Code", width=200)
+                
+                os.remove("url.jpg")
+                
+            except Exception as e:
+                st.error(f"Error: {str(e)}")

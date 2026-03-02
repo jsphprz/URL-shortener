@@ -153,4 +153,7 @@ Thumbs.db
 # File
 url.py
 
+# Streamlit secrets
+.streamlit/secrets.toml
+
 # End of https://www.toptal.com/developers/gitignore/api/python
